@@ -14,7 +14,11 @@ class TweetWall extends React.Component {
   componentWillMount(){
     
   }
+  
   // TODO: shouldComponentUpdate()
+  shouldComponentUpdate(){
+    
+  }
   // TODO: componentWillReceiveProps()
 
   render() {
