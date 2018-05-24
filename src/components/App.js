@@ -1,42 +1,39 @@
 import React from 'react';
-import TweetWall from './TweetWall';
+import Tweet from './Tweet';
 
-import { getTweets }from '../lib/mockAPI';
-
-class App extends React.Component {
-
-  constructor() {
-    super();
+class TweetWall extends React.Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
-      latestTweets: []
+      tweets: []
     };
   }
 
-  // TODO: componentWillMount()
-  // TODO: componentDidMount()
-  // TODO: componentWillUnmount()
-
-  startInterval = () => {
-    this.interval = setInterval(this.fetchTweets, 2000);
-  }
-
-  cleanUpInterval = () => clearInterval(this.interval);
-
-  fetchTweets = () => {
-    const newTweets = getTweets();
+  componentWillMount(){
     this.setState({
-      latestTweets: newTweets
-    });
+      tweets: this.props.newTweets
+    })
+  }
+  
+  // TODO: shouldComponentUpdate(nextProps, nextState)
+  shouldComponentUpdate(nextProps, nextState){
+    return this.state.tweets.length > 0
+  }
+  // TODO: componentWillReceiveProps()
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      tweets: [nextProps.newTweets + this.state.tweets]
+    })
   }
 
   render() {
+    const tweets = this.state.tweets.map((tweet, index) => <Tweet text={tweet.text} key={index} />);
+
     return (
-      <div>
-        <TweetWall newTweets={this.state.latestTweets} />
-      </div>
-    )
+      <div>{tweets}</div>
+    );
   }
 }
 
-export default App;
+export default TweetWall;
